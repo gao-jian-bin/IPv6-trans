@@ -88,58 +88,91 @@ GitHub Education 官方认证入口：<https://github.com/settings/education/ben
 
 下面给出一套更通用的 Linux 初始化步骤，适合新买的 Ubuntu 服务器。
 
-### 1. 更新系统
+### 1. 服务器连接（以 FinalShell 为例）
+
+拿到服务器的 IP 地址和 root 密码后，推荐使用 FinalShell 进行可视化连接，方便管理文件和查看服务器状态：
+
+1. 打开 FinalShell，点击左上角的“文件夹”图标，选择“添加 SSH 连接”。
+2. 在弹出的窗口中填写信息：
+   - **名称**：自定义（如 DO_Ubuntu）
+   - **主机**：填入服务器的公网 IP（IPv4 或 IPv6）
+   - **端口**：默认填写 `22`
+   - **认证方法**：选择“密码”
+   - **用户名**：填入 `root`
+   - **密码**：填入你的服务器密码（如果是用 SSH 密钥创建的服务器，认证方法选“公钥”并导入私钥文件）。
+3. 点击“确定”保存，双击新建的连接。首次连接会提示接受主机密钥，选择“接受并保存”即可进入终端的命令行界面。
+
+### 2. 更新系统与基础环境
+
+连接成功后，先更新系统软件包：
 
 ```bash
 sudo apt update
 sudo apt upgrade -y
 ```
 
-### 2. 查看 IPv6 地址
+为了提升后续网络协议的传输效率和吞吐量，建议开启 BBR 拥塞控制算法：
+
+```bash
+echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
+echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
+sysctl -p
+```
+
+### 3. 查看与测试网络连通性
+
+查看 IPv6 地址：
 
 ```bash
 ip -6 addr
 ```
 
-### 3. 测试 IPv6 连通性
+测试 IPv6 连通性：
 
 ```bash
 ping -6 ipv6.google.com
 ```
 
-## 本地连接建议
+## 部署网络协议服务（以 Hysteria2 为例）
+
+服务器环境准备好后，就可以开始部署网络服务了。这里以部署高性能的 Hysteria2 (hy2) 为例，最便捷的方式是使用一键脚本。
+
+### 1. 运行安装脚本
+在终端中粘贴并运行官方或主流的开源一键脚本（确保当前为 root 权限）：
+
+```bash
+bash <(curl -fsSL [https://get.hy2.sh/](https://get.hy2.sh/))
+```
+*(注：如果你需要同时管理多种协议，也可以在 GitHub 上搜索并安装类似 3x-ui 这样的可视化面板脚本。)*
+
+### 2. 配置服务端
+安装完成后，通常需要编辑配置文件（Hysteria2 默认位于 `/etc/hysteria/config.yaml`），你需要设置或确认以下几项：
+- **监听端口**（如 `listen: :443` 或自定义高端口）
+- **证书配置**（可以使用自签名证书，或绑定域名申请 TLS 证书）
+- **认证密码**（用于客户端连接验证）
+
+配置好后，启动服务并设置开机自启：
+
+```bash
+systemctl enable --now hysteria-server.service
+```
+
+### 3. 本地客户端使用
+服务端配置完成后，脚本或面板通常会为你生成一串节点分享链接（例如 `hysteria2://...`）。将该链接复制后，直接打开本地的 V2rayN 或 Clash 客户端，选择“从剪贴板导入”即可完成节点的添加。选中节点并开启系统代理或设置好路由规则，就能正常使用了。
+
+## 其他本地连接建议
+
+除了 FinalShell，如果你习惯使用纯命令行，各系统的自带工具也非常方便：
 
 ### Windows 连接方式
-
-如果你在本地使用 Windows，可以通过常见的 SSH 工具连接服务器，例如：
-
-- Windows Terminal
+- Windows Terminal (在终端中直接执行 `ssh root@服务器IP`)
 - OpenSSH
 - Xshell
-- FinalShell
 
 ### macOS 连接方式
-
-如果你使用 macOS，通常可以直接通过系统自带的终端工具连接服务器，例如：
-
-- Terminal
+- Terminal (自带终端，执行 `ssh root@服务器IP`)
 - iTerm2
-- OpenSSH
 
 ### Linux 连接方式
-
-如果你使用 Linux，一般可以直接使用系统自带的 SSH 工具连接服务器，例如：
-
-- Terminal
-- OpenSSH
 - GNOME Terminal
 - Konsole
-
-### 连接前请确认
-
-无论你使用哪种操作系统，连接前都建议先确认以下几点：
-
-- 服务器安全组已放行 SSH 端口
-- 实例已经分配公网地址
-- 用户名、端口和认证方式填写正确
-- 如果你准备测试 IPv6，请使用实例实际分配到的 IPv6 地址
