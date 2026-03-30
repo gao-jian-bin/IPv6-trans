@@ -38,6 +38,20 @@ GitHub Education 官方认证入口：<https://github.com/settings/education/ben
 
 然后按照要求来就行了，这里介绍一个秒过的方案，这样就不是零成本了，也就是从学信网上申请一个全英文的学籍证明，然后上传到GitHub这里的认证处，如果期间发现只能用摄像头不能上传文件的话建议**关闭代理**使用一下
 
+**获取 DigitalOcean (DO) 免费服务器**
+
+有了 GitHub 学生认证以后，就可以来到 DigitalOcean (DO) 这个知名的云服务平台来获取免费的服务器了。
+
+操作步骤：
+
+在 GitHub Student Developer Pack 权益页面找到 DigitalOcean 并点击专属链接，或者直接在 DO 官网使用刚才认证过的 GitHub 账号授权注册。
+
+按要求完成新账号的验证（通常需要绑定一下信用卡或 PayPal 进行身份验资，不会产生实际扣费）。
+
+成功激活账号后，进入 DO 后台左侧菜单的 Billing（账单） 页面，你就会看到账户里自动下发了 200 美刀 的账户额度。
+
+有了这笔额度，你就可以直接去创建云服务器（Droplet）并免费使用了。
+
 
 
 
