@@ -1,6 +1,6 @@
 # 校园网 IPv6 云服务器申请与 Hysteria 2 节点配置教程
 
-本文档用于记录以下内容：
+本文档将带你完成以下流程：
 
 - GitHub Education 学生认证
 - 领取 GitHub Student Developer Pack 中的云服务权益
@@ -37,14 +37,12 @@
 
 ### 1）申请 GitHub Education
 
-官方入口：
+- 官方入口：
+  <https://github.com/settings/education/benefits>
+- 参考教程：
+  <https://zhuanlan.zhihu.com/p/578964972>
 
-<https://github.com/settings/education/benefits>
-GitHub 学生认证教程：
-<https://zhuanlan.zhihu.com/p/578964972>
-
-打开后按页面要求提交材料即可。  
-可使用以下任一材料：
+打开后按页面要求提交材料即可。可使用以下任一材料：
 
 - 学校教育邮箱
 - 学生证
@@ -57,9 +55,8 @@ GitHub 学生认证教程：
 
 ### 2）进入 Student Developer Pack
 
-入口：
-
-<https://education.github.com/pack>
+- 入口：
+  <https://education.github.com/pack>
 
 完成学生认证后，进入 Pack 页面查看可领取的合作权益。
 
@@ -129,8 +126,8 @@ GitHub 学生认证教程：
 
 ### 4）设置登录方式
 
-可以设置密码，或者使用 SSH Key。  
-如果当前只是先快速完成创建，先设置密码也可以。
+可以设置密码，也可以使用 SSH Key。
+如果当前只是想先快速完成创建，先设置密码即可。
 
 ![设置登录密码](image/set-login-password.png)
 
@@ -150,8 +147,12 @@ GitHub 学生认证教程：
 
 ### 6）记录服务器 IPv6 地址
 
-实例创建完成后，会在详情页看到服务器分配到的 IP 地址。  
-这里请记住你的 **IPv6 地址**，后面生成客户端配置时会用到。
+实例创建完成后，会在详情页看到服务器分配到的 IP 地址。
+
+<a id="remember-ipv6"></a>
+
+> [!IMPORTANT]
+> 请记住这里显示的 **IPv6 地址**，后面生成客户端配置时会用到。
 
 ![查看实例 IPv6 地址](image/view-ipv6-address.png)
 
@@ -171,53 +172,43 @@ GitHub 学生认证教程：
 
 ---
 
-### 2）通过 SSH 登录（可选）
+### 2）更新系统并安装 Hysteria 2
 
-如果你想在本地终端登录，也可以直接使用 SSH。
-
-使用 IPv4 登录：
-
-```bash
-ssh root@你的服务器IPv4
-```
-
-使用 IPv6 登录：
-
-```bash
-ssh root@[你的IPv6地址]
-```
-
-例如：
-
-```bash
-ssh root@[2400:xxxx:xxxx:xxxx::1]
-```
-
----
-
-### 3）更新系统软件包
-
-登录成功后，先更新系统软件包。
+登录成功后，先更新系统软件包：
 
 ```bash
 sudo apt update
 sudo apt upgrade -y
 ```
 
-如果你使用的是 Ubuntu，这两条命令执行完成后，系统基础环境就更新好了。
-
----
-
-### 4）安装常用工具
+然后执行 Hysteria 2 安装脚本：
 
 ```bash
-sudo apt install -y curl wget vim git dnsutils traceroute
+wget -N --no-check-certificate https://raw.githubusercontent.com/flame1ce/hysteria2-install/main/hysteria2-install-main/hy2/hysteria.sh && bash hysteria.sh
 ```
+
+安装过程中按下面的方式填写即可。
+
+选择 `1`：
+![选择安装选项 1](image/hy2-install-select-1.png)
+
+选择 `Yes`：
+![确认继续安装](image/hy2-install-select-yes.png)
+
+以下几步如果没有特殊需求，保持默认配置即可：
+![保持默认配置步骤 1](image/hy2-install-default-step-1.png)
+![保持默认配置步骤 2](image/hy2-install-default-step-2.png)
+![保持默认配置步骤 3](image/hy2-install-default-step-3.png)
+
+密码可以直接使用随机生成的值：
+![使用随机密码](image/hy2-install-random-password.png)
+
+`SNI` 这里填写 `www.bing.com` 即可：
+![SNI 填写示例](image/hy2-install-sni-bing.png)
 
 ---
 
-
-### 5）复制 Hysteria 2 服务端信息
+### 3）复制 Hysteria 2 服务端信息
 
 拿到 Hysteria 2 服务端信息后，就可以开始生成客户端配置并导入使用。
 
@@ -240,24 +231,24 @@ sudo apt install -y curl wget vim git dnsutils traceroute
 
 ---
 
-### 6）让 AI 生成可用节点
+### 4）让 AI 生成可用节点
 
-将上一步复制到的 Hysteria 2 服务端信息发给 `AI`，并使用下面这段指令：
+将上一步复制到的 Hysteria 2 服务端信息发给 `AI`，以及我们前面的 [`IPv6`](#remember-ipv6) 地址，并使用下面这段指令：
 
 ```text
 请根据我提供的 Hysteria 2 服务端信息，生成一份仅使用 IPv6 地址的客户端配置，不要使用 IPv4。请同时输出：
 1）可直接使用的 Hysteria 2 YAML 配置；
 2）可供 v2rayN 导入的连接格式（URI、JSON 或其他兼容格式）。
-要求配置字段完整、格式准确，包含 server、port、auth、tls、sni 及相关传输参数；如存在缺失项，请先明确指出需要补充的参数，再生成最终配置。
+要求配置字段完整、格式准确，包含 server、port、auth、tls、sni 及相关传输参数；如果存在缺失项，请先明确指出需要补充的参数，再生成最终配置。
 ```
 
-这样可以让 `AI` 直接按照你的服务端信息生成可用配置，并明确要求只使用 IPv6 地址。
+这样可以让 `AI` 直接根据你提供的服务端信息生成可用配置，并明确要求仅使用 IPv6 地址。
 
 如果 `AI` 提示某些参数缺失，请先回到服务端信息中补全，再重新生成最终配置。
 
 ---
 
-### 7）导入客户端
+### 5）导入客户端
 
 如果使用的是 `Clash` 系列客户端，请新建一个 `YAML` 配置文件，将提供的配置代码完整复制进去后再导入客户端。
 
@@ -265,7 +256,7 @@ sudo apt install -y curl wget vim git dnsutils traceroute
 
 ---
 
-### 8）启用代理
+### 6）启用代理
 
 节点导入完成后，启用该节点即可开始使用。
 
@@ -275,22 +266,6 @@ sudo apt install -y curl wget vim git dnsutils traceroute
 - 使用系统代理 + 全局模式
 
 以上两种方式都可以，按自己的使用习惯选择即可。
-
----
-
-## 完成
-
-到这里，你已经完成了以下内容：
-
-- 申请 GitHub Education（可选）
-- 领取 Student Developer Pack 权益（可选）
-- 创建一台开启 IPv6 的云服务器
-- 登录服务器
-- 更新系统并安装基础工具
-- 获取 Hysteria 2 服务端信息
-- 生成并导入客户端节点配置
-
-后续如需继续扩展，也可以在这台服务器上部署自己的学习环境或其他服务。
 
 ---
 
