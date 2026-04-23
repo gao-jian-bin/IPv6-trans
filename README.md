@@ -1,131 +1,319 @@
-# 校园网IPv6转发教程
+# 校园网 IPv6 云服务器申请与基础测试教程
 
-本仓库文档仅用于记录校园网 IPv6 的基础概念、连通性测试方法和合规使用建议。
-# 免责声明
+本文档用于记录以下内容：
 
-本文档仅用于 IPv6 基础知识、网络诊断和合规使用说明，不构成任何绕过认证、规避计费、规避审计或未授权访问的操作指南。
+- GitHub Education 学生认证
+- 领取 GitHub Student Developer Pack 中的云服务权益
+- 在 DigitalOcean 创建一台开启 IPv6 的服务器
+- 登录服务器并完成基础初始化
+- 进行 IPv6 连通性测试
 
+---
 
-不提供也不鼓励以下行为：
+## 目录
 
-- 绕过校园网计费
-- 规避网络审计或监控
-- 搭建或使用未授权的转发、代理、隧道、VPN 中继
-- 借助 IPv6 出口为 IPv4 流量“套壳”或逃逸
+- [一、准备内容](#一准备内容)
+- [二、方案 A：GitHub Education + DigitalOcean](#二方案-agithub-education--digitalocean)
+- [三、方案 B：直接购买服务器](#三方案-b直接购买服务器)
+- [四、创建服务器](#四创建服务器)
+- [五、登录服务器](#五登录服务器)
+- [六、初始化服务器](#六初始化服务器)
+- [七、测试 IPv6 是否正常](#七测试-ipv6-是否正常)
 
-如果你所在学校对 IPv6 提供了免费或优先接入策略，请以学校网络中心、信息化办公室或运营方公布的规则为准。
+---
 
-# 背景
+## 一、准备内容
 
-全国绝大多数高校的校园网是不计入IPv6的上行和下行的流量，所以我们可以把我们的校园网的目的地址转换成一个IPv6的地方，这样就不会被计入流量上传与下载，那么所以现在就应该先准备一台服务器，把我们的校园网的流量转发都定位到这台服务器，然后利用这台服务器帮我们转发流量，这样我们就实现了所有的流量都走IPv6了
+开始前请准备好以下内容：
 
-下面我们介绍两种方案，分别是零成本和有成本：
+1. 一个 GitHub 账号
+2. 学校教育邮箱，或可证明在读身份的正式材料
+3. 一台本地电脑
+4. 可正常访问 GitHub 的网络环境
 
-### 方案 A：低成本方案
+---
 
-如果你具备学生身份，可以优先尝试 GitHub Education 提供的学生权益。
+## 二、方案 A：GitHub Education + DigitalOcean
 
-基本思路：
+如果你具备学生身份，可以先申请 GitHub Education，再领取 Student Developer Pack 中的云服务权益。
 
-1. 准备好 GitHub 账号
-2. 准备学校教育邮箱，或可证明在读身份的正式材料
-3. 通过 GitHub Education 提交学生认证
-4. 认证通过后，查看 Student Developer Pack 中可领取的合作权益
+### 1）申请 GitHub Education
 
-**学生认证准备**
+官方入口：
 
-GitHub Education 官方认证入口：<https://github.com/settings/education/benefits>
+<https://github.com/settings/education/benefits>
+GitHub 学生认证教程：
+<https://zhuanlan.zhihu.com/p/578964972>
 
-然后按照要求来就行了，这里介绍一个秒过的方案，这样就不是零成本了，也就是从学信网上申请一个全英文的学籍证明，然后上传到GitHub这里的认证处，如果期间发现只能用摄像头不能上传文件的话建议**关闭代理**使用一下
+打开后按页面要求提交材料即可。  
+可使用以下任一材料：
 
-**获取 DigitalOcean (DO) 免费服务器**
+- 学校教育邮箱
+- 学生证
+- 学籍证明
+- 其他正式在读证明
 
-有了 GitHub 学生认证以后，就可以来到 DigitalOcean (DO) 这个知名的云服务平台来获取免费的服务器了。
+如果上传页面异常，尽量使用稳定网络环境重新提交。
 
-操作步骤：
-点击这个链接 https://education.github.com/pack
-进行授权
-<img width="1910" height="915" alt="9b569454a3696266474efb0fe8cd8d3e" src="https://github.com/user-attachments/assets/b14240c5-d371-4c34-99cd-8d0d20a6fbed" />
+---
 
-这里可以选择支付宝，有其他方式也可以，下面以支付宝为例
-<img width="1920" height="910" alt="e0fd30fc2ba82658ec6fc5340836cbe4" src="https://github.com/user-attachments/assets/7747c61f-ef30-475f-ae3b-b649a936de52" />
+### 2）进入 Student Developer Pack
 
-<img width="1920" height="910" alt="d4785bbabf13a9d765564f000ae777aa" src="https://github.com/user-attachments/assets/010fe415-498c-4dee-80c0-8912814ebe2d" />
+入口：
 
-<img width="1920" height="910" alt="8dcc880a7739b9be276f1d8dae2f8419" src="https://github.com/user-attachments/assets/f206fba2-2c5d-4fad-b91b-d46b7e39ba6b" />
+<https://education.github.com/pack>
 
-成功以后，回到DO平台能够看到已经成功获得GitHub学生包的200刀的权益（点击左侧导航栏的`Billing`）
-<img width="1920" height="910" alt="325c2052dd7d7556eeacefc81d1ba8fb" src="https://github.com/user-attachments/assets/17b034b0-f39f-42cd-acef-ad11aae1dada" />
-然后我们创建实例
-<img width="1920" height="910" alt="65f1e14cb74cd29bd4c90b3420ca30f4" src="https://github.com/user-attachments/assets/5676ec42-4862-44a1-a61f-77ac43f563d4" />
+完成学生认证后，进入 Pack 页面查看可领取的合作权益。
 
-<img width="1920" height="910" alt="d93a4157261e4bcacaf275ded8a50684" src="https://github.com/user-attachments/assets/9b2d7704-498f-4314-a9dd-afee76f7b279" />
+点击对应云服务后，按页面步骤完成绑定和授权。
 
-尽量选价格低的，流量上传下载跟配置没啥关系，所以200刀尽可能让他保证够用
-<img width="1920" height="910" alt="dadeaef7f8910ac55a1439a383940152" src="https://github.com/user-attachments/assets/39a81b82-8f1c-4346-a128-382efee9b646" />
+![GitHub Student Pack 页面](https://github.com/user-attachments/assets/b14240c5-d371-4c34-99cd-8d0d20a6fbed)
 
-创建密码    密码随便
-<img width="1920" height="910" alt="31dd1ae89986b6fb364c6a62914a8e41" src="https://github.com/user-attachments/assets/91836ac1-a738-4d5f-9885-e648b92ebdd1" />
+---
 
-**最重要的一步： 勾选IPv6！！！** 
+### 3）绑定 DigitalOcean
 
-<img width="1920" height="910" alt="219b74af97a1ab896116ad8c509c080b" src="https://github.com/user-attachments/assets/be815391-720d-4340-8901-866517e75c7e" />
+根据页面提示完成授权与账户绑定。
 
-<img width="1920" height="910" alt="a703812aaabff9821d59ebd09de406a9" src="https://github.com/user-attachments/assets/eb4dd472-fac9-4ab2-9807-f89ccff39202" />
-创建好以后，会到这里，记住我们这里的`IPv6`的地址
-<img width="1920" height="910" alt="a7fbb3028fe1a035e2ec68ee7ef0b43d" src="https://github.com/user-attachments/assets/3091efad-6523-41cc-9424-9c208e3db09e" />
+下面是示例流程图：
 
-打开这个
+![选择支付方式](https://github.com/user-attachments/assets/7747c61f-ef30-475f-ae3b-b649a936de52)
 
-<img width="1920" height="910" alt="9acabedd020f482420727c675eaeb8db" src="https://github.com/user-attachments/assets/ce6ac10d-7969-4a19-a625-80dc4c237dbc" />
-进入到里面
-<img width="1295" height="1010" alt="91fa39aff9aef652754ff746514a9d00" src="https://github.com/user-attachments/assets/d08de22d-3472-4fbf-a85b-e0b6fabfa816" />
+![绑定流程步骤 1](https://github.com/user-attachments/assets/010fe415-498c-4dee-80c0-8912814ebe2d)
 
-执行 
+![绑定流程步骤 2](https://github.com/user-attachments/assets/f206fba2-2c5d-4fad-b91b-d46b7e39ba6b)
+
+绑定成功后，回到 DigitalOcean 控制台，在左侧导航栏打开：
+
+`Billing`
+
+确认权益是否已经到账。
+
+![Billing 页面查看额度](https://github.com/user-attachments/assets/17b034b0-f39f-42cd-acef-ad11aae1dada)
+
+---
+
+## 三、方案 B：直接购买服务器
+
+如果你暂时没有学生认证，或者不想等待审核，也可以直接在正规云平台购买一台支持 IPv6 的服务器。
+
+买完后，后续步骤与下文相同，直接从 **[四、创建服务器](#四创建服务器)** 开始即可。
+
+---
+
+## 四、创建服务器
+
+下面以 DigitalOcean 为例。
+
+### 1）创建 Droplet
+
+进入控制台后，创建一台新的服务器实例。
+
+![创建实例](https://github.com/user-attachments/assets/5676ec42-4862-44a1-a61f-77ac43f563d4)
+
+---
+
+### 2）选择系统镜像
+
+选择常见的 Linux 发行版即可，推荐 Ubuntu LTS。
+
+![选择系统镜像](https://github.com/user-attachments/assets/9b2d7704-498f-4314-a9dd-afee76f7b279)
+
+---
+
+### 3）选择配置
+
+常规学习和基础测试场景，选择价格较低的配置即可。
+
+![选择低价配置](https://github.com/user-attachments/assets/39a81b82-8f1c-4346-a128-382efee9b646)
+
+---
+
+### 4）设置登录方式
+
+可以设置密码，或者使用 SSH Key。  
+如果当前只是先快速完成创建，先设置密码也可以。
+
+![设置登录密码](https://github.com/user-attachments/assets/91836ac1-a738-4d5f-9885-e648b92ebdd1)
+
+---
+
+### 5）开启 IPv6
+
+这一步非常关键：**创建实例时务必勾选 IPv6**。
+
+![勾选 IPv6](https://github.com/user-attachments/assets/be815391-720d-4340-8901-866517e75c7e)
+
+确认无误后继续创建。
+
+![确认创建实例](https://github.com/user-attachments/assets/eb4dd472-fac9-4ab2-9807-f89ccff39202)
+
+---
+
+### 6）记录服务器 IPv6 地址
+
+实例创建完成后，会在详情页看到服务器分配到的 IP 地址。  
+这里请记住你的 **IPv6 地址**，后面测试时会用到。
+
+![查看实例 IPv6 地址](https://github.com/user-attachments/assets/3091efad-6523-41cc-9424-9c208e3db09e)
+
+---
+
+## 五、登录服务器
+
+### 1）打开控制台
+
+在实例页面打开服务器控制台。
+
+![打开控制台](https://github.com/user-attachments/assets/ce6ac10d-7969-4a19-a625-80dc4c237dbc)
+
+进入后即可看到终端界面。
+
+![进入控制台终端](https://github.com/user-attachments/assets/d08de22d-3472-4fbf-a85b-e0b6fabfa816)
+
+---
+
+### 2）通过 SSH 登录（可选）
+
+如果你想在本地终端登录，也可以直接使用 SSH。
+
+使用 IPv4 登录：
+
+```bash
+ssh root@你的服务器IPv4
+```
+
+使用 IPv6 登录：
+
+```bash
+ssh root@[你的IPv6地址]
+```
+
+例如：
+
+```bash
+ssh root@[2400:xxxx:xxxx:xxxx::1]
+```
+
+---
+
+## 六、初始化服务器
+
+登录成功后，先更新系统软件包。
+
 ```bash
 sudo apt update
 sudo apt upgrade -y
 ```
 
+如果你使用的是 Ubuntu，这两条命令执行完成后，系统基础环境就更新好了。
+
+---
+
+### 1）安装常用工具
+
 ```bash
-wget -N --no-check-certificate https://raw.githubusercontent.com/flame1ce/hysteria2-install/main/hysteria2-install-main/hy2/hysteria.sh && bash hysteria.sh
+sudo apt install -y curl wget vim git dnsutils traceroute
 ```
 
-选1
-<img width="1296" height="930" alt="a72a9fc59af4b3bbe011df0db5c82b30" src="https://github.com/user-attachments/assets/a54718cb-f82a-464a-9f76-5f46f6e72881" />
-下面都选`Yes`
-<img width="1295" height="1010" alt="6ae28ac91c56ded82031f23bf9adf8f1" src="https://github.com/user-attachments/assets/491f3f24-4184-4ffe-868d-1f9f9b5476ec" />
-下面默认就行
-<img width="1295" height="1010" alt="59ea5dd420756a971e4858cdfd60decb" src="https://github.com/user-attachments/assets/3a784833-9232-49d2-aac1-46386befc117" />
-<img width="1295" height="1010" alt="f7a4bfa6ae0b90f0b85323d0c538970c" src="https://github.com/user-attachments/assets/d18d3bf3-588c-4125-aea9-b12c8a904dbb" />
-<img width="1295" height="1010" alt="0b7e677886bdb8b270757683772d0555" src="https://github.com/user-attachments/assets/a236d2de-4a67-4156-a01a-6758da7b55e6" />
+---
 
-密码随便设或者直接随机生成
-<img width="1295" height="1010" alt="40d8c0fe5c2b48b6c5b7a5e82775f841" src="https://github.com/user-attachments/assets/0fc39b88-66fb-4201-8ac2-876afe63861c" />
-混淆这里填入bing的, `www.bing.com`
-<img width="1296" height="930" alt="8118fe70ccbc65cda4a39a1eef4b976b" src="https://github.com/user-attachments/assets/838e22a9-7a8a-440a-892b-86e41b21f264" />
-会得到如下的信息
-<img width="1422" height="1106" alt="image" src="https://github.com/user-attachments/assets/f9b38095-c886-4dd7-b03d-550e7887f6b8" />
-我们把这些信息复制下来,然后去让`AI`生成一个能用的节点,指令如下:
-```
-请根据我提供的 Hysteria 2 服务端信息，生成一份仅使用 IPv6 地址的客户端配置，不要使用 IPv4。请同时输出：
-1）可直接使用的 Hysteria 2 YAML 配置；
-2）可供 v2rayN 导入的连接格式（URI、JSON 或其他兼容格式）。
-要求配置字段完整、格式准确，包含 server、port、auth、tls、sni 及相关传输参数；如存在缺失项，请先明确指出需要补充的参数，再生成最终配置。
+### 2）查看网卡和地址信息
+
+```bash
+ip addr
+ip -6 addr
 ```
 
-如果使用的是 `Clash` 系列客户端，请新建一个 `YAML` 配置文件，将提供的配置代码完整复制进去后再导入客户端。
-如果使用的是其他代理客户端，例如 `v2rayN`，请按照指定的配置格式直接复制并粘贴导入。
+如果已经正确分配 IPv6，你会在输出中看到全局 IPv6 地址。
 
+---
 
+### 3）查看路由信息
 
+```bash
+ip route
+ip -6 route
+```
 
+---
 
+## 七、测试 IPv6 是否正常
 
+完成初始化后，执行下面几项基础测试。
 
+### 1）查看当前服务器 IPv6 地址
 
-### 方案 B：直接购买
+```bash
+ip -6 addr
+```
 
-如果你不想等待学生认证，或者当前没有可用的学生优惠，最直接的办法就是在正规云平台购买服务器。
-买完以后后续同上
+---
 
+### 2）测试 IPv6 连通性
+
+可以先测试公共 IPv6 DNS 地址：
+
+```bash
+ping -6 2606:4700:4700::1111
+```
+
+如果网络正常，会看到持续返回 `64 bytes from ...` 的结果。
+
+---
+
+### 3）测试 IPv6 出口
+
+```bash
+curl -6 https://api64.ipify.org
+```
+
+如果返回的是一个 IPv6 地址，说明当前服务器 IPv6 出口正常。
+
+---
+
+### 4）测试 AAAA 记录解析
+
+```bash
+dig AAAA google.com
+```
+
+如果解析成功，会看到 `AAAA` 记录结果。
+
+---
+
+### 5）测试 IPv6 路由路径
+
+```bash
+traceroute -6 2606:4700:4700::1111
+```
+
+如果能够正常返回多跳信息，说明 IPv6 路由已建立。
+
+---
+
+## 完成
+
+到这里，你已经完成了以下内容：
+
+- 申请 GitHub Education（可选）
+- 领取 Student Developer Pack 权益（可选）
+- 创建一台开启 IPv6 的云服务器
+- 登录服务器
+- 更新系统并安装基础工具
+- 验证 IPv6 是否已经可以正常使用
+
+后续如需部署你自己的学习环境，可以继续在这台服务器上进行常规开发和测试。
+
+---
+
+## 相关链接
+
+- GitHub Education  
+  <https://github.com/settings/education/benefits>
+
+- GitHub Student Developer Pack  
+  <https://education.github.com/pack>
+
+- DigitalOcean  
+  <https://www.digitalocean.com/>
