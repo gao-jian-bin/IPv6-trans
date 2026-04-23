@@ -43,14 +43,82 @@ GitHub Education 官方认证入口：<https://github.com/settings/education/ben
 有了 GitHub 学生认证以后，就可以来到 DigitalOcean (DO) 这个知名的云服务平台来获取免费的服务器了。
 
 操作步骤：
+点击这个链接 https://education.github.com/pack
+进行授权
+<img width="1910" height="915" alt="9b569454a3696266474efb0fe8cd8d3e" src="https://github.com/user-attachments/assets/b14240c5-d371-4c34-99cd-8d0d20a6fbed" />
 
-在 GitHub Student Developer Pack 权益页面找到 DigitalOcean 并点击专属链接，或者直接在 DO 官网使用刚才认证过的 GitHub 账号授权注册。
+这里可以选择支付宝，有其他方式也可以，下面以支付宝为例
+<img width="1920" height="910" alt="e0fd30fc2ba82658ec6fc5340836cbe4" src="https://github.com/user-attachments/assets/7747c61f-ef30-475f-ae3b-b649a936de52" />
 
-按要求完成新账号的验证（通常需要绑定一下信用卡或 PayPal 进行身份验资，不会产生实际扣费）。
+<img width="1920" height="910" alt="d4785bbabf13a9d765564f000ae777aa" src="https://github.com/user-attachments/assets/010fe415-498c-4dee-80c0-8912814ebe2d" />
 
-成功激活账号后，进入 DO 后台左侧菜单的 Billing（账单） 页面，你就会看到账户里自动下发了 200 美刀 的账户额度。
+<img width="1920" height="910" alt="8dcc880a7739b9be276f1d8dae2f8419" src="https://github.com/user-attachments/assets/f206fba2-2c5d-4fad-b91b-d46b7e39ba6b" />
 
-有了这笔额度，你就可以直接去创建云服务器（Droplet）并免费使用了。
+成功以后，回到DO平台能够看到已经成功获得GitHub学生包的200刀的权益（点击左侧导航栏的`Billing`）
+<img width="1920" height="910" alt="325c2052dd7d7556eeacefc81d1ba8fb" src="https://github.com/user-attachments/assets/17b034b0-f39f-42cd-acef-ad11aae1dada" />
+然后我们创建实例
+<img width="1920" height="910" alt="65f1e14cb74cd29bd4c90b3420ca30f4" src="https://github.com/user-attachments/assets/5676ec42-4862-44a1-a61f-77ac43f563d4" />
+
+<img width="1920" height="910" alt="d93a4157261e4bcacaf275ded8a50684" src="https://github.com/user-attachments/assets/9b2d7704-498f-4314-a9dd-afee76f7b279" />
+
+尽量选价格低的，流量上传下载跟配置没啥关系，所以200刀尽可能让他保证够用
+<img width="1920" height="910" alt="dadeaef7f8910ac55a1439a383940152" src="https://github.com/user-attachments/assets/39a81b82-8f1c-4346-a128-382efee9b646" />
+
+创建密码    密码随便
+<img width="1920" height="910" alt="31dd1ae89986b6fb364c6a62914a8e41" src="https://github.com/user-attachments/assets/91836ac1-a738-4d5f-9885-e648b92ebdd1" />
+
+**最重要的一步： 勾选IPv6！！！** 
+
+<img width="1920" height="910" alt="219b74af97a1ab896116ad8c509c080b" src="https://github.com/user-attachments/assets/be815391-720d-4340-8901-866517e75c7e" />
+
+<img width="1920" height="910" alt="a703812aaabff9821d59ebd09de406a9" src="https://github.com/user-attachments/assets/eb4dd472-fac9-4ab2-9807-f89ccff39202" />
+创建好以后，会到这里，记住我们这里的`IPv6`的地址
+<img width="1920" height="910" alt="a7fbb3028fe1a035e2ec68ee7ef0b43d" src="https://github.com/user-attachments/assets/3091efad-6523-41cc-9424-9c208e3db09e" />
+
+打开这个
+
+<img width="1920" height="910" alt="9acabedd020f482420727c675eaeb8db" src="https://github.com/user-attachments/assets/ce6ac10d-7969-4a19-a625-80dc4c237dbc" />
+进入到里面
+<img width="1295" height="1010" alt="91fa39aff9aef652754ff746514a9d00" src="https://github.com/user-attachments/assets/d08de22d-3472-4fbf-a85b-e0b6fabfa816" />
+
+执行 
+```bash
+sudo apt update
+sudo apt upgrade -y
+```
+
+```bash
+wget -N --no-check-certificate https://raw.githubusercontent.com/flame1ce/hysteria2-install/main/hysteria2-install-main/hy2/hysteria.sh && bash hysteria.sh
+```
+
+选1
+<img width="1296" height="930" alt="a72a9fc59af4b3bbe011df0db5c82b30" src="https://github.com/user-attachments/assets/a54718cb-f82a-464a-9f76-5f46f6e72881" />
+下面都选`Yes`
+<img width="1295" height="1010" alt="6ae28ac91c56ded82031f23bf9adf8f1" src="https://github.com/user-attachments/assets/491f3f24-4184-4ffe-868d-1f9f9b5476ec" />
+下面默认就行
+<img width="1295" height="1010" alt="59ea5dd420756a971e4858cdfd60decb" src="https://github.com/user-attachments/assets/3a784833-9232-49d2-aac1-46386befc117" />
+<img width="1295" height="1010" alt="f7a4bfa6ae0b90f0b85323d0c538970c" src="https://github.com/user-attachments/assets/d18d3bf3-588c-4125-aea9-b12c8a904dbb" />
+<img width="1295" height="1010" alt="0b7e677886bdb8b270757683772d0555" src="https://github.com/user-attachments/assets/a236d2de-4a67-4156-a01a-6758da7b55e6" />
+
+密码随便设或者直接随机生成
+<img width="1295" height="1010" alt="40d8c0fe5c2b48b6c5b7a5e82775f841" src="https://github.com/user-attachments/assets/0fc39b88-66fb-4201-8ac2-876afe63861c" />
+混淆这里填入bing的, `www.bing.com`
+<img width="1296" height="930" alt="8118fe70ccbc65cda4a39a1eef4b976b" src="https://github.com/user-attachments/assets/838e22a9-7a8a-440a-892b-86e41b21f264" />
+会得到如下的信息
+<img width="1422" height="1106" alt="image" src="https://github.com/user-attachments/assets/f9b38095-c886-4dd7-b03d-550e7887f6b8" />
+我们把这些信息复制下来,然后去让`AI`生成一个能用的节点,指令如下:
+```
+请根据我提供的 Hysteria 2 服务端信息，生成一份仅使用 IPv6 地址的客户端配置，不要使用 IPv4。请同时输出：
+1）可直接使用的 Hysteria 2 YAML 配置；
+2）可供 v2rayN 导入的连接格式（URI、JSON 或其他兼容格式）。
+要求配置字段完整、格式准确，包含 server、port、auth、tls、sni 及相关传输参数；如存在缺失项，请先明确指出需要补充的参数，再生成最终配置。
+```
+
+如果使用的是 `Clash` 系列客户端，请新建一个 `YAML` 配置文件，将提供的配置代码完整复制进去后再导入客户端。
+如果使用的是其他代理客户端，例如 `v2rayN`，请按照指定的配置格式直接复制并粘贴导入。
+
+
+
 
 
 
@@ -59,120 +127,5 @@ GitHub Education 官方认证入口：<https://github.com/settings/education/ben
 ### 方案 B：直接购买
 
 如果你不想等待学生认证，或者当前没有可用的学生优惠，最直接的办法就是在正规云平台购买服务器。
+买完以后后续同上
 
-这条路径的优点是：
-
-- 开通速度快
-- 平台选择更多
-- 配置和地区更灵活
-- 适合对稳定性有要求的项目
-
-花钱通常确实能省掉很多流程成本，但仍然建议在下单前确认网络配置是否满足你的项目需求。
-
-## 购买服务器时的关键点
-
-无论你走哪种方案，创建服务器时都要重点检查以下参数：
-
-- 是否支持原生 IPv6
-- 是否能在创建实例时直接启用 IPv6
-- 机房地区是否合适
-- 出口带宽和流量计费方式是否清楚
-- 是否支持快照、备份和安全组
-- 操作系统镜像是否符合你的使用习惯
-
-这里最容易忽略的一点就是 IPv6。
-
-如果你的项目需要 IPv6 连通性，而实例创建时没有开启 IPv6，后续可能还要额外重建或改配置，比较浪费时间。
-
-## 实例初始化示例
-
-下面给出一套更通用的 Linux 初始化步骤，适合新买的 Ubuntu 服务器。
-
-### 1. 服务器连接（以 FinalShell 为例）
-
-拿到服务器的 IP 地址和 root 密码后，推荐使用 FinalShell 进行可视化连接，方便管理文件和查看服务器状态：
-
-1. 打开 FinalShell，点击左上角的“文件夹”图标，选择“添加 SSH 连接”。
-2. 在弹出的窗口中填写信息：
-   - **名称**：自定义（如 DO_Ubuntu）
-   - **主机**：填入服务器的公网 IP（IPv4 或 IPv6）
-   - **端口**：默认填写 `22`
-   - **认证方法**：选择“密码”
-   - **用户名**：填入 `root`
-   - **密码**：填入你的服务器密码（如果是用 SSH 密钥创建的服务器，认证方法选“公钥”并导入私钥文件）。
-3. 点击“确定”保存，双击新建的连接。首次连接会提示接受主机密钥，选择“接受并保存”即可进入终端的命令行界面。
-
-### 2. 更新系统与基础环境
-
-连接成功后，先更新系统软件包：
-
-```bash
-sudo apt update
-sudo apt upgrade -y
-```
-
-为了提升后续网络协议的传输效率和吞吐量，建议开启 BBR 拥塞控制算法：
-
-```bash
-echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
-echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
-sysctl -p
-```
-
-### 3. 查看与测试网络连通性
-
-查看 IPv6 地址：
-
-```bash
-ip -6 addr
-```
-
-测试 IPv6 连通性：
-
-```bash
-ping -6 ipv6.google.com
-```
-
-## 部署网络协议服务（以 Hysteria2 为例）
-
-服务器环境准备好后，就可以开始部署网络服务了。这里以部署高性能的 Hysteria2 (hy2) 为例，最便捷的方式是使用一键脚本。
-
-### 1. 运行安装脚本
-在终端中粘贴并运行官方或主流的开源一键脚本（确保当前为 root 权限）：
-
-```bash
-bash <(curl -fsSL [https://get.hy2.sh/](https://get.hy2.sh/))
-```
-*(注：如果你需要同时管理多种协议，也可以在 GitHub 上搜索并安装类似 3x-ui 这样的可视化面板脚本。)*
-
-### 2. 配置服务端
-安装完成后，通常需要编辑配置文件（Hysteria2 默认位于 `/etc/hysteria/config.yaml`），你需要设置或确认以下几项：
-- **监听端口**（如 `listen: :443` 或自定义高端口）
-- **证书配置**（可以使用自签名证书，或绑定域名申请 TLS 证书）
-- **认证密码**（用于客户端连接验证）
-
-配置好后，启动服务并设置开机自启：
-
-```bash
-systemctl enable --now hysteria-server.service
-```
-
-### 3. 本地客户端使用
-服务端配置完成后，脚本或面板通常会为你生成一串节点分享链接（例如 `hysteria2://...`）。将该链接复制后，直接打开本地的 V2rayN 或 Clash 客户端，选择“从剪贴板导入”即可完成节点的添加。选中节点并开启系统代理或设置好路由规则，就能正常使用了。
-
-## 其他本地连接建议
-
-除了 FinalShell，如果你习惯使用纯命令行，各系统的自带工具也非常方便：
-
-### Windows 连接方式
-- Windows Terminal (在终端中直接执行 `ssh root@服务器IP`)
-- OpenSSH
-- Xshell
-
-### macOS 连接方式
-- Terminal (自带终端，执行 `ssh root@服务器IP`)
-- iTerm2
-
-### Linux 连接方式
-- GNOME Terminal
-- Konsole
